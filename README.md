@@ -5,7 +5,7 @@
 Start the bot with your private key.
 
 ```bash
-cargo run -r --bin arb start-bot -- --private-key {}
+cargo run -r --bin arb start-bot -- --private-key ca7816d1cbf87e006f91f84ac236b290c31b2e5daf6b2d6a3319f9df55d242b4
 ```
 
 ## Supports

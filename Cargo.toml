@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "bin/arb",
+    "bin/key",
     "bin/relay",
     "crates/arb-common",
     "crates/dex-indexer",
@@ -14,6 +15,7 @@ members = [
 ]
 
 [workspace.dependencies]
+hex = "0.4"  # Add this line
 dex-indexer = { path = "crates/dex-indexer" }
 mev_logger = { path = "crates/logger" }
 object-pool = { path = "crates/object-pool" }

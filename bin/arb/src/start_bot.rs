@@ -20,7 +20,7 @@ use crate::{
     types::{Action, Event},
     HttpConfig,
 };
-
+use fastcrypto::traits::EncodeDecodeBase64;
 #[derive(Clone, Debug, Parser)]
 pub struct Args {
     #[arg(long, env = "SUI_PRIVATE_KEY")]
@@ -115,6 +115,7 @@ struct WorkerConfig {
     pub dedicated_long_interval: u64,
 }
 
+
 pub async fn run(args: Args) -> Result<()> {
     utils::set_panic_hook();
     mev_logger::init_with_whitelisted_modules(
@@ -123,7 +124,13 @@ pub async fn run(args: Args) -> Result<()> {
         &["arb", "utils", "shio", "cache_metrics=debug"],
     );
 
-    let keypair = SuiKeyPair::decode(&args.private_key)?;
+    info!("Starting arb bot with args: {:#?}", args);
+
+
+    let inner_key_pair = "ANRj4Rx5FZRehqwrctiLgZDPrY/3tI5+uJLCdaXPCj6C";
+
+    //let keypair = SuiKeyPair::decode(&args.private_key)?;
+    let keypair = SuiKeyPair::decode_base64(inner_key_pair)?;
     let pubkey = keypair.public();
     let attacker = SuiAddress::from(&pubkey);
 
@@ -146,7 +153,7 @@ pub async fn run(args: Args) -> Result<()> {
         engine.add_collector(map_collector!(shio_collector, Event::Shio));
 
         if args.shio_use_rpc {
-            let shio_rpc_executor = ShioRPCExecutor::new(SuiKeyPair::decode(&args.private_key)?);
+            let shio_rpc_executor = ShioRPCExecutor::new( SuiKeyPair::decode_base64(inner_key_pair)?);
             engine.add_executor(map_executor!(shio_rpc_executor, Action::ShioSubmitBid));
         } else {
             engine.add_executor(map_executor!(shio_executor, Action::ShioSubmitBid));
@@ -157,7 +164,7 @@ pub async fn run(args: Args) -> Result<()> {
     }
 
     engine.add_executor(map_executor!(
-        PublicTxExecutor::new(&rpc_url, SuiKeyPair::decode(&args.private_key)?).await?,
+        PublicTxExecutor::new(&rpc_url,  SuiKeyPair::decode_base64(inner_key_pair)?).await?,
         Action::ExecutePublicTx
     ));
 

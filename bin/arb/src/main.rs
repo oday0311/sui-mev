@@ -23,7 +23,7 @@ pub struct Args {
 #[derive(Clone, Debug, Parser)]
 #[command(about = "Common configuration")]
 pub struct HttpConfig {
-    #[arg(long, env = "SUI_RPC_URL", default_value = "http://localhost:9000")]
+    #[arg(long, env = "SUI_RPC_URL", default_value = "https://rpc-mainnet.suiscan.xyz:443")]
     pub rpc_url: String,
 
     #[arg(long, help = "deprecated")]

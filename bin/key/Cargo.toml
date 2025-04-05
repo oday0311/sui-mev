@@ -1,0 +1,10 @@
+[package]
+name = "key"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand.workspace = true
+fastcrypto.workspace = true
+sui-types.workspace = true
+hex.workspace= true 
