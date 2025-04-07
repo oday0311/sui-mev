@@ -93,10 +93,16 @@ impl Worker {
 
             self.submitter.submit(action);
 
-            let tg_msgs = new_tg_messages(tx_digest, arb_tx_digest, &arb_result, elapsed, &self.simulator_name);
-            for tg_msg in tg_msgs {
-                self.submitter.submit(tg_msg.into());
-            }
+            info!(
+                arb_tx_digest = ?arb_tx_digest,
+                tx_digest = ?tx_digest,
+                elapsed = ?elapsed,
+                "================💰 Submit tx: {tx_digest} -> {arb_tx_digest}"
+            );
+            // let tg_msgs = new_tg_messages(tx_digest, arb_tx_digest, &arb_result, elapsed, &self.simulator_name);
+            // for tg_msg in tg_msgs {
+            //     self.submitter.submit(tg_msg.into());
+            // }
 
             // notify dedicated simulator to update more frequently
             if let Some(dedicated_sim) = &self.dedicated_simulator {

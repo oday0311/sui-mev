@@ -44,7 +44,8 @@ pub fn set_panic_hook() {
             None => format!("thread '{}' panicked at '{}'", thread, msg,),
         };
 
-        send_panic_to_telegram(&cmdline, &err_msg);
+        //send_panic_to_telegram(&cmdline, &err_msg);
+
         error!(target: "panic_hook", err_msg);
     }));
 }
